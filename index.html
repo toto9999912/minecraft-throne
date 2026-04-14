@@ -17,6 +17,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      max-height: calc(100vh - 40px);
     }
 
     .panel {
@@ -34,6 +35,20 @@
       color: #aaa;
       text-transform: uppercase;
       letter-spacing: 1px;
+    }
+
+    #texture-list {
+      max-height: calc(100vh - 180px);
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    #texture-list::-webkit-scrollbar {
+      width: 4px;
+    }
+    #texture-list::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
     }
 
     .texture-btn {
@@ -67,6 +82,25 @@
       border-radius: 4px;
       image-rendering: pixelated;
       border: 1px solid rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+
+    #export-btn {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      background: rgba(79, 195, 247, 0.25);
+      border: 2px solid rgba(79, 195, 247, 0.5);
+      border-radius: 6px;
+      color: #4fc3f7;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #export-btn:hover {
+      background: rgba(79, 195, 247, 0.4);
     }
 
     #info {
@@ -85,6 +119,7 @@
     <div class="panel">
       <h3>材質包 Texture Pack</h3>
       <div id="texture-list"></div>
+      <button id="export-btn">匯出 SVG 展開圖</button>
     </div>
   </div>
   <div id="info">滑鼠左鍵拖曳旋轉 | 滾輪縮放 | 右鍵平移</div>

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TEXTURE_PACKS } from './textures.js';
 import { getThroneBlocks } from './throne.js';
+import { exportPackSVG } from './export-svg.js';
 
 // ─── Scene setup ──────────────────────────────────
 const scene = new THREE.Scene();
@@ -183,6 +184,11 @@ for (const [id, pack] of Object.entries(TEXTURE_PACKS)) {
 
 // Build initial throne
 buildThrone(currentPack);
+
+// ─── Export SVG button ────────────────────────────
+document.getElementById('export-btn').addEventListener('click', () => {
+  exportPackSVG(currentPack);
+});
 
 // ─── Animation loop ───────────────────────────────
 function animate() {
