@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minecraft 風格 3D 王座</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { overflow: hidden; background: #1a1a2e; font-family: 'Segoe UI', sans-serif; }
+    canvas { display: block; }
+
+    #ui {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .panel {
+      background: rgba(0, 0, 0, 0.75);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 16px;
+      color: #fff;
+      min-width: 220px;
+    }
+
+    .panel h3 {
+      font-size: 14px;
+      margin-bottom: 12px;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .texture-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid transparent;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .texture-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .texture-btn.active {
+      border-color: #4fc3f7;
+      background: rgba(79, 195, 247, 0.15);
+    }
+
+    .texture-preview {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      image-rendering: pixelated;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    #info {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.5);
+      font-size: 12px;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div id="ui">
+    <div class="panel">
+      <h3>材質包 Texture Pack</h3>
+      <div id="texture-list"></div>
+    </div>
+  </div>
+  <div id="info">滑鼠左鍵拖曳旋轉 | 滾輪縮放 | 右鍵平移</div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
