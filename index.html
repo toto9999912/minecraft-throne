@@ -9,7 +9,8 @@
     body { overflow: hidden; background: #1a1a2e; font-family: 'Segoe UI', sans-serif; }
     canvas { display: block; }
 
-    #ui {
+    /* ── Left panel: texture packs ── */
+    #panel-left {
       position: fixed;
       top: 20px;
       left: 20px;
@@ -21,31 +22,136 @@
     }
 
     .panel {
-      background: rgba(0, 0, 0, 0.75);
-      border: 2px solid rgba(255, 255, 255, 0.15);
+      background: rgba(0, 0, 0, 0.78);
+      border: 2px solid rgba(255, 255, 255, 0.12);
       border-radius: 8px;
-      padding: 16px;
+      padding: 14px;
       color: #fff;
-      min-width: 220px;
+      min-width: 200px;
     }
 
     .panel h3 {
-      font-size: 14px;
-      margin-bottom: 12px;
-      color: #aaa;
+      font-size: 12px;
+      margin-bottom: 10px;
+      color: #888;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
+    /* ── Right panel: editor + templates ── */
+    #panel-right {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: calc(100vh - 40px);
+      width: 230px;
+    }
+
+    /* ── Block counter (top-right) ── */
+    #counter {
+      text-align: center;
+      font-size: 13px;
+    }
+    #counter .total {
+      font-size: 28px;
+      font-weight: bold;
+      color: #4fc3f7;
+      line-height: 1.2;
+    }
+    #counter .label { color: #888; font-size: 11px; }
+    #counter-detail {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 8px;
+      margin-top: 10px;
+      font-size: 11px;
+    }
+    .counter-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .counter-swatch {
+      width: 12px; height: 12px;
+      border-radius: 2px;
+      border: 1px solid rgba(255,255,255,0.2);
+      image-rendering: pixelated;
+      flex-shrink: 0;
+    }
+    .counter-count { color: #4fc3f7; font-weight: bold; margin-left: auto; }
+
+    /* ── Edit mode toggle ── */
+    #edit-toggle {
+      width: 100%;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: bold;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    #edit-toggle.active {
+      border-color: #ff9800;
+      background: rgba(255,152,0,0.2);
+      color: #ff9800;
+    }
+    #edit-toggle:hover { background: rgba(255,255,255,0.15); }
+
+    /* ── Block type selector ── */
+    #block-types {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+    .block-type-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      background: rgba(255,255,255,0.06);
+      border: 2px solid transparent;
+      border-radius: 5px;
+      color: #ccc;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .block-type-btn:hover { background: rgba(255,255,255,0.12); }
+    .block-type-btn.active {
+      border-color: #ff9800;
+      background: rgba(255,152,0,0.15);
+      color: #fff;
+    }
+    .block-type-swatch {
+      width: 20px; height: 20px;
+      border-radius: 3px;
+      image-rendering: pixelated;
+      border: 1px solid rgba(255,255,255,0.15);
+      flex-shrink: 0;
+    }
+
+    #edit-hint {
+      font-size: 10px;
+      color: #666;
+      text-align: center;
+      line-height: 1.4;
+      margin-top: 4px;
+    }
+
+    /* ── Texture pack list ── */
     #texture-list {
-      max-height: calc(100vh - 180px);
+      max-height: calc(100vh - 220px);
       overflow-y: auto;
       padding-right: 4px;
     }
-
-    #texture-list::-webkit-scrollbar {
-      width: 4px;
-    }
+    #texture-list::-webkit-scrollbar { width: 4px; }
     #texture-list::-webkit-scrollbar-thumb {
       background: rgba(255,255,255,0.2);
       border-radius: 2px;
@@ -54,55 +160,139 @@
     .texture-btn {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       width: 100%;
-      padding: 8px 12px;
-      margin-bottom: 6px;
-      background: rgba(255, 255, 255, 0.08);
+      padding: 6px 10px;
+      margin-bottom: 4px;
+      background: rgba(255, 255, 255, 0.06);
       border: 2px solid transparent;
-      border-radius: 6px;
+      border-radius: 5px;
       color: #fff;
-      font-size: 13px;
+      font-size: 12px;
       cursor: pointer;
       transition: all 0.2s;
     }
-
-    .texture-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-    }
-
+    .texture-btn:hover { background: rgba(255, 255, 255, 0.12); }
     .texture-btn.active {
       border-color: #4fc3f7;
       background: rgba(79, 195, 247, 0.15);
     }
 
     .texture-preview {
-      width: 32px;
-      height: 32px;
-      border-radius: 4px;
+      width: 24px; height: 24px;
+      border-radius: 3px;
       image-rendering: pixelated;
       border: 1px solid rgba(255,255,255,0.2);
       flex-shrink: 0;
     }
 
-    #export-btn {
+    /* ── Action buttons ── */
+    .action-btn {
       width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      background: rgba(79, 195, 247, 0.25);
-      border: 2px solid rgba(79, 195, 247, 0.5);
-      border-radius: 6px;
-      color: #4fc3f7;
-      font-size: 13px;
+      padding: 8px;
+      font-size: 12px;
       font-weight: bold;
+      border: 2px solid;
+      border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s;
+      margin-top: 6px;
+    }
+    .action-btn:hover { filter: brightness(1.2); }
+    .btn-blue {
+      border-color: rgba(79,195,247,0.5);
+      background: rgba(79,195,247,0.2);
+      color: #4fc3f7;
+    }
+    .btn-green {
+      border-color: rgba(76,175,80,0.5);
+      background: rgba(76,175,80,0.2);
+      color: #66bb6a;
+    }
+    .btn-red {
+      border-color: rgba(244,67,54,0.5);
+      background: rgba(244,67,54,0.15);
+      color: #ef5350;
     }
 
-    #export-btn:hover {
-      background: rgba(79, 195, 247, 0.4);
+    /* ── Templates list ── */
+    #template-list {
+      max-height: 180px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    #template-list::-webkit-scrollbar { width: 4px; }
+    #template-list::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+    }
+    .tpl-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      margin-bottom: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 5px;
+      font-size: 12px;
+    }
+    .tpl-name {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .tpl-name:hover { color: #4fc3f7; }
+    .tpl-btn {
+      background: none;
+      border: none;
+      color: #888;
+      cursor: pointer;
+      font-size: 13px;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    .tpl-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    .tpl-btn.del:hover { color: #ef5350; }
+
+    #save-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    #save-name {
+      flex: 1;
+      padding: 6px 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 5px;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      font-size: 12px;
+      outline: none;
+    }
+    #save-name::placeholder { color: #555; }
+    #save-name:focus { border-color: rgba(79,195,247,0.5); }
+    #save-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      background: #4fc3f7;
+      color: #111;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #save-btn:hover { background: #81d4fa; }
+
+    .empty-hint {
+      color: #555;
+      font-size: 11px;
+      text-align: center;
+      padding: 8px;
     }
 
+    /* ── Bottom info ── */
     #info {
       position: fixed;
       bottom: 20px;
@@ -115,13 +305,47 @@
   </style>
 </head>
 <body>
-  <div id="ui">
+  <!-- Left panel: texture packs -->
+  <div id="panel-left">
     <div class="panel">
-      <h3>材質包 Texture Pack</h3>
+      <h3>材質包</h3>
       <div id="texture-list"></div>
-      <button id="export-btn">匯出 SVG 展開圖</button>
+      <button id="export-btn" class="action-btn btn-blue">匯出 SVG 展開圖</button>
     </div>
   </div>
+
+  <!-- Right panel: counter + editor + templates -->
+  <div id="panel-right">
+    <!-- Block counter -->
+    <div class="panel" id="counter">
+      <div class="total" id="total-count">0</div>
+      <div class="label">方塊總數</div>
+      <div id="counter-detail"></div>
+    </div>
+
+    <!-- Edit tools -->
+    <div class="panel">
+      <button id="edit-toggle">編輯模式：關閉</button>
+      <div id="editor-tools" style="display:none; margin-top:10px;">
+        <h3>放置方塊類型</h3>
+        <div id="block-types"></div>
+        <div id="edit-hint">左鍵點擊面 = 放置 | 右鍵點擊 = 移除</div>
+        <button id="clear-all-btn" class="action-btn btn-red" style="margin-top:8px;">清空所有方塊</button>
+      </div>
+    </div>
+
+    <!-- Templates -->
+    <div class="panel">
+      <h3>範本管理</h3>
+      <div id="template-list"></div>
+      <div id="save-row">
+        <input type="text" id="save-name" placeholder="輸入範本名稱..." maxlength="30">
+        <button id="save-btn">儲存</button>
+      </div>
+      <button id="load-default-btn" class="action-btn btn-green" style="margin-top:6px;">載入預設王座</button>
+    </div>
+  </div>
+
   <div id="info">滑鼠左鍵拖曳旋轉 | 滾輪縮放 | 右鍵平移</div>
 
   <script type="importmap">
